@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BillSplitter — Prototype</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>BillSplitter</h1>
+
+        <div class="row">
+            <input id="billName" type="text" placeholder="Bill name (eg. Trip to Goa)" style="flex:1" />
+        </div>
+
+        <div class="row">
+            <input id="totalAmount" type="number" placeholder="Total Bill Amount" />
+            <input id="numPeople" type="number" placeholder="Number of People" />
+            <button id="calculateBtn" type="button">Calculate</button>
+        </div>
+
+        <div id="fairShareArea" class="note"></div>
+
+        <div class="row">
+            <button id="addPersonBtn" type="button">+ Add Person</button>
+        </div>
+
+        <table id="peopleTable" aria-label="people">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Amount paid</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Buttons container under table -->
+        <div class="row" id="tableButtons" style="margin-top:8px">
+            <button id="settlementBtn" class="ghost">Settlement</button>
+            <button id="saveBtn" type="button" class="ghost">Save Bill</button>
+            <button id="shareBtn" type="button" class="ghost">Share / QR</button>
+        </div>
+
+        <div id="summaryArea" style="margin-top:12px">
+            <div id="totalArea" class="note"></div>
+            <div id="results"></div>
+            <div id="qr"></div>
+        </div>
+
+        <h3 style="margin-top:18px">Saved Bills</h3>
+        <ul id="history"></ul>
+
+        <div class="muted small">
+            Enter bill details → Click Calculate to see fair split → Add who paid how much → See who owes whom.
+        </div>
+    </div>
+
+    <!-- QRCode library (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
