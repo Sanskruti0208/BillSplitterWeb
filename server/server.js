@@ -41,12 +41,18 @@ app.post('/api/bills', async (req, res) => {
 app.get('/api/bills', async (req, res) => {
     try {
         const { rows } = await pool.query('SELECT * FROM bills ORDER BY created_at DESC LIMIT 200;');
-        res.json(rows);
+        const parsed = rows.map(r => ({
+            ...r,
+            participants: typeof r.participants === 'string' ? JSON.parse(r.participants) : r.participants,
+            transactions: typeof r.transactions === 'string' ? JSON.parse(r.transactions) : r.transactions
+        }));
+        res.json(parsed);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'server error' });
     }
 });
+
 
 // API: get single bill
 app.get('/api/bills/:id', async (req, res) => {
@@ -54,7 +60,12 @@ app.get('/api/bills/:id', async (req, res) => {
         const { id } = req.params;
         const { rows } = await pool.query('SELECT * FROM bills WHERE id = $1', [id]);
         if (!rows[0]) return res.status(404).json({ error: 'not found' });
-        res.json(rows[0]);
+
+        const row = rows[0];
+        row.participants = typeof row.participants === 'string' ? JSON.parse(row.participants) : row.participants;
+        row.transactions = typeof row.transactions === 'string' ? JSON.parse(row.transactions) : row.transactions;
+
+        res.json(row);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'server error' });
